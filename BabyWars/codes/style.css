@@ -1,0 +1,22 @@
+.grid {
+  width: 600px;
+  height: 600px;
+  border: solid 1px black;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid div {
+  width: 40px;
+  height: 40px;
+  border: solid 1px black;
+  box-sizing: border-box;
+}
+
+.baby {
+  background-color: green;
+}
+
+.mommy {
+  background-color: deeppink;
+}
