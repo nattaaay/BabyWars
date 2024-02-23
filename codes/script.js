@@ -6,6 +6,7 @@ const grid = document.querySelector(".grid");
 const scoreDisplay = document.querySelector(".score");
 const width = 15;
 let currentMommyPosition = [216, 217, 218];
+let leftBorderMom = currentMommyPosition[0] % width === 0;
 let currentBabyPosition = [
   4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52,
 ];
@@ -92,6 +93,7 @@ function changeMomPos(newPos) {
   }
 }
 
+//debug. incorrect syntax
 function drawMommy() {
   for (let i = 0; i < currentMommyPosition.length; i++) {
     if (squares[currentMommyPosition[i]]) {
@@ -99,18 +101,21 @@ function drawMommy() {
     }
   }
 }
-// debug. code block above replacing code block below.
-
-// function drawMommy() {
-//   for (let i = 0; i < currentMommyPosition.length; i++) {
-//     squares[currentMommyPosition[i]].classList.add("mommyClass");
-//   }
-// }
 
 function moveMommyLeft() {
   removeMommy();
   changeMomPos(-1);
   drawMommy();
+}
+
+if ((leftBorderMom = false)) {
+  function moveMommyLeft() {
+    removeMommy();
+    changeMomPos(-1);
+    drawMommy();
+  }
+} else {
+  removeEventListener("keyLeft", moveMommyLeft);
 }
 
 function moveMommyRight() {
@@ -142,7 +147,7 @@ const babyArmy = [4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52];
 function drawBaby() {
   for (let i = 0; i < babyArmy.length; i++) {
     if (!babiesFed.includes(i)) {
-      squares[babyArmy[i]].classList.add("baby");
+      squares[babyArmy[i]].classList.add("babyClass");
     }
   }
 }

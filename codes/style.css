@@ -1,7 +1,8 @@
 .grid {
   width: 600px;
   height: 600px;
-  border: solid 5px black;
+  background-color: black;
+  border: solid 20px rgb(70, 24, 177);
   display: flex;
   flex-wrap: wrap;
 }
@@ -9,16 +10,16 @@
 .grid div {
   width: 40px;
   height: 40px;
-  border: solid 1px black;
+  border: solid 1px grey;
   box-sizing: border-box;
 }
 
-.baby {
-  background-color: green;
+.babyClass {
+  background-color: rgb(254, 136, 58);
 }
 
 .mommyClass {
-  background-color: deeppink;
+  background-color: rgb(27, 251, 31);
 }
 
 .bottle {
