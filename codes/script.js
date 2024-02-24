@@ -6,11 +6,11 @@ const grid = document.querySelector(".grid");
 const scoreDisplay = document.querySelector(".score");
 const width = 15;
 let currentMommyPosition = [216, 217, 218];
-let leftBorderMom = currentMommyPosition[0] % width === 0;
 let currentBabyPosition = [
   4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52,
 ];
 const babiesFed = [];
+let babyId;
 
 /* =========================================================================================== */
 
@@ -60,6 +60,8 @@ function removeMommy() {
   }
 }
 
+//review the code block below again and add comments.
+
 function changeMomPos() {
   for (let i = 0; i < currentMommyPosition.length; i++) {
     currentMommyPosition[i]--;
@@ -87,13 +89,12 @@ function removeMommy() {
   }
 }
 
-function changeMomPos(newPos) {
+function changeMomPos(newMomPos) {
   for (let i = 0; i < currentMommyPosition.length; i++) {
-    currentMommyPosition[i] += newPos;
+    currentMommyPosition[i] += newMomPos;
   }
 }
 
-//debug. incorrect syntax
 function drawMommy() {
   for (let i = 0; i < currentMommyPosition.length; i++) {
     if (squares[currentMommyPosition[i]]) {
@@ -103,55 +104,120 @@ function drawMommy() {
 }
 
 function moveMommyLeft() {
-  removeMommy();
-  changeMomPos(-1);
-  drawMommy();
-}
-
-if ((leftBorderMom = false)) {
-  function moveMommyLeft() {
+  if (parseInt(currentMommyPosition[0]) > 210) {
     removeMommy();
     changeMomPos(-1);
     drawMommy();
   }
-} else {
-  removeEventListener("keyLeft", moveMommyLeft);
 }
 
 function moveMommyRight() {
-  removeMommy();
-  changeMomPos(+1);
-  drawMommy();
+  if (parseInt(currentMommyPosition[2]) < 224) {
+    removeMommy();
+    changeMomPos(+1);
+    drawMommy();
+  }
 }
-
-//CODE BLOCK BELOW DOESN'T QUITE WORK. FIGURE OUT WHY!
-// function moveMommy(e) {
-//   squares[currentMommyPosition].classList.remove("mommyClass");
-//   switch (e.key) {
-//     case "ArrowLeft":
-//       if (currentMommyPosition % width !== 0) currentMommyPosition -= 1;
-//       break;
-//     case "ArrowRight":
-//       if (currentMommyPosition % 15 !== 0) currentMommyPosition += 1;
-//       break;
-//   }
-//   squares[currentMommyPosition].classList.add("mommy");
-// }
 
 /* =========================================================================================== */
 
 /* baby army's starting point indexes of the div array */
-const babyArmy = [4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52];
+// const babyArmy = [4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52];
 
 /* loop over the babyarmy array to give a class of the selected indexes of the babyArmy array*/
+
+// function drawBaby() {
+//   for (let i = 0; i < babyArmy.length; i++) {
+//     if (!babiesFed.includes(i)) {
+//       squares[babyArmy[i]].classList.add("babyClass");
+//     }
+//   }
+// }
+
+//defining the function of "drawing" the babies, use currentBabyPosition as it will be manipulated later, so it's gonna change
+
 function drawBaby() {
-  for (let i = 0; i < babyArmy.length; i++) {
-    if (!babiesFed.includes(i)) {
-      squares[babyArmy[i]].classList.add("babyClass");
-    }
+  for (let i = 0; i < currentBabyPosition.length; i++) {
+    squares[currentBabyPosition[i]].classList.add("babyClass");
   }
 }
 drawBaby();
+
+//codes below are to remove the class, change/add new position and add class again to the new divs. same as above like moveMommy. this is gonnna create the illusion that they are moving.
+
+function removeBabies() {
+  let oldBabyPos = document.querySelectorAll(".babyClass");
+
+  for (let i = 0; i < oldBabyPos.length; i++) {
+    oldBabyPos[i].classList.remove("babyClass");
+  }
+}
+
+function changeBabyPos() {
+  for (let i = 0; i < currentBabyPosition.length; i++) {
+    currentBabyPosition[i]--;
+  }
+}
+
+// THESE ARE THE FUNCTIONS I WANT TO INVOKE WHEN GAME STARTS/ TO SET TOGETHER LATER WITH TIME INTERVAL.
+//removeBabies();
+//changeBabyPos();
+//drawBaby();
+
+//
+//add time interval here
+//
+
+//babyId = setInterval(moveBabiesLeft, 800);
+
+function removeBabies() {
+  let oldBabyPos = document.querySelectorAll(".babyClass");
+
+  for (let i = 0; i < oldBabyPos.length; i++) {
+    oldBabyPos[i].classList.remove("babyClass");
+  }
+}
+
+function changeBabyPos(newBabypos) {
+  for (let i = 0; i < currentBabyPosition.length; i++) {
+    currentBabyPosition[i] += newBabypos;
+  }
+}
+
+function drawBaby() {
+  for (let i = 0; i < currentBabyPosition.length; i++) {
+    if (squares[currentBabyPosition[i]]) {
+      squares[currentBabyPosition[i]].classList.add("babyClass");
+    }
+  }
+}
+
+//improve these two constants later, maybe can use some loop or something.
+const leftBorder =
+  squares[(0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210)];
+const rightBorder =
+  squares[(14, 29, 44, 59, 74, 89, 104, 119, 134, 149, 164, 179, 194, 209)];
+//change this. [i] would be looping through the whole array of left borders. create left borders array.
+
+// function moveBabiesLeft() {
+
+for (let i = 0; i < currentBabyPosition.length; i++) {
+  let posToInt = parseInt(currentBabyPosition[i]);
+}
+let posToInt = [];
+let babyPosArr = posToInt.push(posToInt[i]);
+console.log(babyPosArr);
+
+for (let i = 0; i < leftBorder.length; i++) {
+  let borToInt = parseInt(leftBorder[i]);
+}
+
+// code block for moveBabyLeft. Insert the conditions, and all other functions to be invoked.
+//   if (parseInt(currentBabyPosition[i]) > leftBorder[i])
+//     removeBabies();
+//   changeBabyPos(-1);
+//   drawBaby();
+// }
 
 //NOTES TO SELF
 //create baby army and mommy first
