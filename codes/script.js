@@ -32,9 +32,6 @@ for (let i = 0; i < width * width; i++) {
 const squares = Array.from(document.querySelectorAll(".grid div"));
 console.log(squares);
 
-/* mommy army's starting point indexes of the div array */
-//let mommyArmy = [216, 217, 218];
-
 /* adding the class of "mommy" to the respective div indexes above */
 
 function drawMommy() {
@@ -52,21 +49,21 @@ drawMommy();
 3. draw new mommy position (the drawMommy function will also add the class to the new mommy divs)
 */
 
-function removeMommy() {
-  let oldMommyPos = document.querySelectorAll(".mommyClass");
+// function removeMommy() {
+//   let oldMommyPos = document.querySelectorAll(".mommyClass");
 
-  for (let i = 0; i < oldMommyPos.length; i++) {
-    oldMommyPos[i].classList.remove("mommyClass");
-  }
-}
+//   for (let i = 0; i < oldMommyPos.length; i++) {
+//     oldMommyPos[i].classList.remove("mommyClass");
+//   }
+// }
 
 //review the code block below again and add comments.
 
-function changeMomPos() {
-  for (let i = 0; i < currentMommyPosition.length; i++) {
-    currentMommyPosition[i]--;
-  }
-}
+// function changeMomPos() {
+//   for (let i = 0; i < currentMommyPosition.length; i++) {
+//     currentMommyPosition[i]--;
+//   }
+// }
 
 //THESE ARE THE FUNCTIONS I WANT TO INVOKE WHEN EVENTLISTENER-LEFT/ RIGHT.
 // removeMommy();
@@ -122,18 +119,7 @@ function moveMommyRight() {
 /* =========================================================================================== */
 
 /* baby army's starting point indexes of the div array */
-// const babyArmy = [4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52];
-
-/* loop over the babyarmy array to give a class of the selected indexes of the babyArmy array*/
-
-// function drawBaby() {
-//   for (let i = 0; i < babyArmy.length; i++) {
-//     if (!babiesFed.includes(i)) {
-//       squares[babyArmy[i]].classList.add("babyClass");
-//     }
-//   }
-// }
-
+/* loop over the currentBabyPosition array to give a class of the selected indexes of the babyArmy array*/
 //defining the function of "drawing" the babies, use currentBabyPosition as it will be manipulated later, so it's gonna change
 
 function drawBaby() {
@@ -145,30 +131,24 @@ drawBaby();
 
 //codes below are to remove the class, change/add new position and add class again to the new divs. same as above like moveMommy. this is gonnna create the illusion that they are moving.
 
-function removeBabies() {
-  let oldBabyPos = document.querySelectorAll(".babyClass");
+// function removeBabies() {
+//   let oldBabyPos = document.querySelectorAll(".babyClass");
 
-  for (let i = 0; i < oldBabyPos.length; i++) {
-    oldBabyPos[i].classList.remove("babyClass");
-  }
-}
+//   for (let i = 0; i < oldBabyPos.length; i++) {
+//     oldBabyPos[i].classList.remove("babyClass");
+//   }
+// }
 
-function changeBabyPos() {
-  for (let i = 0; i < currentBabyPosition.length; i++) {
-    currentBabyPosition[i]--;
-  }
-}
+// function changeBabyPos() {
+//   for (let i = 0; i < currentBabyPosition.length; i++) {
+//     currentBabyPosition[i]--;
+//   }
+// }
 
 // THESE ARE THE FUNCTIONS I WANT TO INVOKE WHEN GAME STARTS/ TO SET TOGETHER LATER WITH TIME INTERVAL.
 //removeBabies();
 //changeBabyPos();
 //drawBaby();
-
-//
-//add time interval here
-//
-
-//babyId = setInterval(moveBabiesLeft, 800);
 
 function removeBabies() {
   let oldBabyPos = document.querySelectorAll(".babyClass");
@@ -199,8 +179,11 @@ const rightBorder =
   squares[(14, 29, 44, 59, 74, 89, 104, 119, 134, 149, 164, 179, 194, 209)];
 //change this. [i] would be looping through the whole array of left borders. create left borders array.
 
-// function moveBabiesLeft() {
+// function moveBabiesLeft() to be inserted below, together with setInterval
 
+babyId = setInterval(moveBabiesLeft, 800);
+
+/*
 for (let i = 0; i < currentBabyPosition.length; i++) {
   let posToInt = parseInt(currentBabyPosition[i]);
 }
@@ -212,7 +195,26 @@ for (let i = 0; i < leftBorder.length; i++) {
   let borToInt = parseInt(leftBorder[i]);
 }
 
-// code block for moveBabyLeft. Insert the conditions, and all other functions to be invoked.
+*/
+
+function moveBabiesLeft() {
+  removeBabies();
+  changeBabyPos(-1);
+  drawBaby();
+}
+
+let isInLeftBorder = false;
+
+for (let i = 0; i < currentBabyPosition.length; i++) {
+  if (leftBorder.includes(currentBabyPosition[i])) {
+    isInLeftBorder = true;
+    break;
+  }
+}
+
+console.log(isInLeftBorder);
+
+//  below is the start of the code block for moveBabyLeft. Insert the conditions, and all other functions to be invoked.
 //   if (parseInt(currentBabyPosition[i]) > leftBorder[i])
 //     removeBabies();
 //   changeBabyPos(-1);
