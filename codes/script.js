@@ -267,16 +267,19 @@ for (let i = 0; i < parsedBabyPosition.length; i++) {
 
 /* ===================================================================================== */
 //Bottle
-let currentBottlePosition = currentMommyPosition[1] - 15;
 
+let currentBottlePosition = currentMommyPosition[1] - 15;
 console.log(currentBottlePosition); //202
-// currentBottlePosition.classList.add("bottleClass");
+
 function drawBottle() {
-  for (let i = 0; i < currentBottlePosition.length; i++) {
-    squares[currentBottlePosition[i]].classList.add("bottleClass");
-  }
+  squares[currentBottlePosition].classList.add("bottleClass");
 }
+
 drawBottle();
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "ArrowRight") moveMommyRight();
+});
 
 //style baby bottle
 // add class
