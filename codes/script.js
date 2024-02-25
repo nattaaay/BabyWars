@@ -5,10 +5,12 @@ creating variables, dimensions and starting positions of each character
 const grid = document.querySelector(".grid");
 const scoreDisplay = document.querySelector(".score");
 const width = 15;
+//const height = 15   --> to add later when babies are moving down, or can just (+15) of width. Let's see
 let currentMommyPosition = [216, 217, 218];
 let currentBabyPosition = [
   4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52,
 ];
+
 const babiesFed = [];
 let babyId;
 
@@ -171,31 +173,54 @@ function drawBaby() {
     }
   }
 }
+/* ============================================================================================ */
 
-//improve these two constants later, maybe can use some loop or something.
-const leftBorder =
-  squares[(0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210)];
-const rightBorder =
-  squares[(14, 29, 44, 59, 74, 89, 104, 119, 134, 149, 164, 179, 194, 209)];
-//change this. [i] would be looping through the whole array of left borders. create left borders array.
+const leftBorder = [];
+
+for (let i = 0; i < width * width; i += 15) {
+  leftBorder.push(i);
+}
+
+//improve code below. this array generates (-1) as a value.
+
+const rightBorder = [];
+
+for (let i = 0; i < width; i++) {
+  rightBorder.push(i * 15 - 1);
+}
 
 // function moveBabiesLeft() to be inserted below, together with setInterval
 
-babyId = setInterval(moveBabiesLeft, 800);
+babyId = setInterval(moveBabiesRight, 800);
 
-/*
-for (let i = 0; i < currentBabyPosition.length; i++) {
-  let posToInt = parseInt(currentBabyPosition[i]);
+// converting to integers using parseInt
+
+let parsedBabyPosition = [];
+
+function convertBabyArmy() {
+  for (let i = 0; i < currentBabyPosition.length; i++) {
+    parsedBabyPosition[i] = parseInt(currentBabyPosition[i]);
+  }
 }
-let posToInt = [];
-let babyPosArr = posToInt.push(posToInt[i]);
-console.log(babyPosArr);
+convertBabyArmy();
 
-for (let i = 0; i < leftBorder.length; i++) {
-  let borToInt = parseInt(leftBorder[i]);
+let parsedLeftBorder = [];
+
+function convertLeftBorder() {
+  for (let i = 0; i < leftBorder.length; i++) {
+    parsedLeftBorder[i] = parseInt(leftBorder[i]);
+  }
 }
+convertLeftBorder();
 
-*/
+let parsedRightBorder = [];
+
+function convertRightBorder() {
+  for (let i = 0; i < rightBorder.length; i++) {
+    parsedRightBorder[i] = parseInt(rightBorder[i]);
+  }
+}
+convertRightBorder();
 
 function moveBabiesLeft() {
   removeBabies();
@@ -203,16 +228,33 @@ function moveBabiesLeft() {
   drawBaby();
 }
 
+function moveBabiesRight() {
+  removeBabies();
+  changeBabyPos(1);
+  drawBaby();
+}
+
+//get back to this again later. these two blocks still do not work.
 let isInLeftBorder = false;
 
-for (let i = 0; i < currentBabyPosition.length; i++) {
-  if (leftBorder.includes(currentBabyPosition[i])) {
+for (let i = 0; i < parsedBabyPosition.length; i++) {
+  if (parsedLeftBorder.includes(parsedBabyPosition[i])) {
     isInLeftBorder = true;
     break;
   }
 }
 
-console.log(isInLeftBorder);
+//console.log(isInLeftBorder);
+
+let isInRightBorder = false;
+
+for (let i = 0; i < parsedBabyPosition.length; i++) {
+  if (parsedRightBorder.includes(parsedBabyPosition[i])) {
+    isInRightBorder = true;
+    break;
+  }
+}
+//console.log(isInRightBorder);
 
 //  below is the start of the code block for moveBabyLeft. Insert the conditions, and all other functions to be invoked.
 //   if (parseInt(currentBabyPosition[i]) > leftBorder[i])
@@ -221,9 +263,30 @@ console.log(isInLeftBorder);
 //   drawBaby();
 // }
 
+//insert function (moveBabyRight) here. include all the conditions and callback functions.
+
+/* ===================================================================================== */
+//Bottle
+let currentBottlePosition = currentMommyPosition[1] - 15;
+
+console.log(currentBottlePosition); //202
+// currentBottlePosition.classList.add("bottleClass");
+function drawBottle() {
+  for (let i = 0; i < currentBottlePosition.length; i++) {
+    squares[currentBottlePosition[i]].classList.add("bottleClass");
+  }
+}
+drawBottle();
+
+//style baby bottle
+// add class
+// add event.listener (spacebar)
+// do the thing again. remove class, change position (-15) and then add class again.
+
 //NOTES TO SELF
 //create baby army and mommy first
-//make them move! left right, the event.listener thing
+//make them move! left right
+// the event.listener thing
 
 //when doing whatever, consider putting it in an array. might be useful later!!!
 

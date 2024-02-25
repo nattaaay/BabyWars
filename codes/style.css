@@ -15,13 +15,13 @@
 }
 
 .babyClass {
-  background-color: rgb(254, 136, 58);
+  background-color: rgb(255, 149, 0);
 }
 
 .mommyClass {
-  background-color: rgb(27, 251, 31);
+  background-color: rgb(0, 255, 42);
 }
 
-.bottle {
+.bottleClass {
   background-color: blue;
 }
