@@ -5,13 +5,13 @@ creating variables, dimensions and starting positions of each character
 const grid = document.querySelector(".grid");
 const scoreDisplay = document.querySelector(".score");
 const width = 15;
-//const height = 15   --> to add later when babies are moving down, or can just (+15) of width. Let's see
+
 let currentMommyPosition = [216, 217, 218];
 let currentBabyPosition = [
   4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52,
 ];
 
-const babiesFed = [];
+let babiesFed = [];
 let babyId;
 
 /* =========================================================================================== */
@@ -131,22 +131,6 @@ function drawBaby() {
 }
 drawBaby();
 
-//codes below are to remove the class, change/add new position and add class again to the new divs. same as above like moveMommy. this is gonnna create the illusion that they are moving.
-
-// function removeBabies() {
-//   let oldBabyPos = document.querySelectorAll(".babyClass");
-
-//   for (let i = 0; i < oldBabyPos.length; i++) {
-//     oldBabyPos[i].classList.remove("babyClass");
-//   }
-// }
-
-// function changeBabyPos() {
-//   for (let i = 0; i < currentBabyPosition.length; i++) {
-//     currentBabyPosition[i]--;
-//   }
-// }
-
 // THESE ARE THE FUNCTIONS I WANT TO INVOKE WHEN GAME STARTS/ TO SET TOGETHER LATER WITH TIME INTERVAL.
 //removeBabies();
 //changeBabyPos();
@@ -191,7 +175,7 @@ for (let i = 0; i < width; i++) {
 
 // function moveBabiesLeft() to be inserted below, together with setInterval
 
-babyId = setInterval(moveBabiesRight, 800);
+babyId = setInterval(moveBabiesRight, 300); //baby's movement speed
 
 // converting to integers using parseInt
 
@@ -268,32 +252,100 @@ for (let i = 0; i < parsedBabyPosition.length; i++) {
 /* ===================================================================================== */
 //Bottle
 
-let currentBottlePosition = currentMommyPosition[1] - 15;
-console.log(currentBottlePosition); //202
-
 function drawBottle() {
+  //console.log(squares[currentBottlePosition]);
   squares[currentBottlePosition].classList.add("bottleClass");
 }
 
-drawBottle();
+function removeBottle() {
+  const oldBottlePos = document.querySelector(".bottleClass");
+  // console.log(oldBottlePos);
+  // TO DO: _______check if classList is null before remove
+  oldBottlePos.classList.remove("bottleClass");
+}
+
+function shootBottleUp() {
+  console.log("bottle-" + currentBottlePosition);
+  removeBottle();
+  changeBottlePos(-15);
+  drawBottle();
+
+  console.log("baby-" + currentBabyPosition);
+
+  if (currentBabyPosition.includes(currentBottlePosition)) {
+    console.log("++++++");
+    removeBottle();
+    removeBaby(currentBottlePosition);
+  } else console.log("-----");
+}
+
+// shootBottleUp();
+
+let currentBottlePosition;
 
 document.addEventListener("keydown", function (event) {
-  if (event.key === "ArrowRight") moveMommyRight();
+  currentBottlePosition = currentMommyPosition[1] - 15;
+  // console.log(currentBottlePosition); //202
+  // console.log(squares[202]);
+  if (event.key === " ") {
+    drawBottle();
+    const bottleId = setInterval(() => {
+      if (currentBottlePosition < 0) clearInterval(bottleId);
+      shootBottleUp();
+    }, 200); //bottle speed
+    // shootBottleUp();
+  }
 });
+//codes below copied from above. modify them to apply to "bottle"
+/*=========================================================== */
 
-//style baby bottle
-// add class
-// add event.listener (spacebar)
-// do the thing again. remove class, change position (-15) and then add class again.
+// let parsedBottlePosition = 0;
 
-//NOTES TO SELF
-//create baby army and mommy first
-//make them move! left right
-// the event.listener thing
+// removeBottle();
 
-//when doing whatever, consider putting it in an array. might be useful later!!!
+// function removeBottle() {
+//   let oldBottlePos = document.querySelector(".bottleClass");
+//   if (oldBottlePos) {
+//     {
+//       oldBottlePos.classList.remove("bottleClass");
+//       while ((oldBottlePos = document.querySelector(".bottleClass")));
+//     }
+//   }
+// }
 
-//can add the start button also (this is to start running the script)
-//what to do later
-//add the bottle
-//div-->squares ARRAY
+function changeBottlePos(newBotPos) {
+  currentBottlePosition += newBotPos;
+}
+// changeBottlePos();
+
+// function drawBottle() {
+//   console.log(currentBottlePosition);
+//   let parsedBottlePosition =
+//     squares[parseInt(currentBottlePosition)].classList.add("bottleClass");
+// }
+
+/* ================================================================= */
+
+function removeBaby(babyPos) {
+  //const oldBabyPos = document.querySelector(".babyClass");
+  //oldBabyPos.classList.remove("babyClass");
+  //squares[babyPos].classList.remove("babyClass");
+  console.log("babyPos: " + babyPos);
+  console.log(currentBabyPosition);
+  let i = currentBabyPosition.indexOf(babyPos);
+
+  console.log("i: " + i);
+  currentBabyPosition.splice(i, 1);
+  if (currentBabyPosition.length == 10) {
+    alert("WIN LIAO LORRR!");
+  }
+}
+
+// function shoot (e) {
+//   let bottleId
+//   let currentBottlePosition = currentMommyPosition[1]
+// }
+// if (e.key === " ") {
+//   babyId = setInterval(setInt, 800)
+
+// }
