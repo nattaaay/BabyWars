@@ -1,6 +1,6 @@
-# <Your game's or app's title>
+# Baby Wars
 
-A description of your game. Background info of the game is a nice touch.
+A version of blah
 
 # Screenshot
 
@@ -12,13 +12,15 @@ A description of your game. Background info of the game is a nice touch.
 - JavaScript
 - HTML
 - CSS
-- CardStarter CSS Library
 
 # Getting Started
 
 [Click to Play Connect Four!](your deployment url here)
 
 # Next Steps
+
+- Fixing the bugs related to the keydown/bottle.
+- Able to re-load the game after win or loss.
 
 - Future enhancement one...
 - Future enhancement two...

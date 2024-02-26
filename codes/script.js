@@ -11,7 +11,7 @@ let currentBabyPosition = [
   4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52,
 ];
 
-let babiesFed = []; //remove if not using
+//initialization of these variables just to check if the codes are working right.
 let babyIntervalId = -1;
 let bottleIntervalId = -1;
 
@@ -20,18 +20,14 @@ function startGame() {
   let currentBabyPosition = [
     4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52,
   ];
-  //clearInterval(bottleIntervalId);
-  //clearInterval(babyIntervalId);
   drawBaby();
   drawMommy();
 }
 /* =========================================================================================== */
 
 /*
-  below,
-  - i'm creating the small boxes within the whole big box border.
-  - the <div>s are being created using the loop and appendchild.
-  - also adding id to each individual div to make it easier to track which square.
+  - creating small 'squares'
+  - putting them in an array
   */
 
 for (let i = 0; i < width * width; i++) {
@@ -40,12 +36,10 @@ for (let i = 0; i < width * width; i++) {
   grid.appendChild(square);
 }
 
-/*create an array. all the divs that are in the grid. */
-
 const squares = Array.from(document.querySelectorAll(".grid div"));
 console.log(squares);
 
-/* adding the class of "mommy" to the respective div indexes above */
+/* adding the class of "mommy" to "draw" them out (with the help of CSS) */
 
 function drawMommy() {
   for (let i = 0; i < currentMommyPosition.length; i++) {
@@ -55,29 +49,13 @@ function drawMommy() {
 
 /*
 - mommy's movements
-- move mommy array to the left
-1. remove class from existing divs of mommy
-2. modify position of the mommy array to a mew position (1 grid to the left)
-3. draw new mommy position (the drawMommy function will also add the class to the new mommy divs)
+- move mommy array to the left/right
+1. remove class
+2. modify position of the mommy array to a mew position (1 square to the left/right)
+3. draw new mommy position (the drawMommy function will also add the class to the new mommy squares)
 */
 
-// function removeMommy() {
-//   let oldMommyPos = document.querySelectorAll(".mommyClass");
-
-//   for (let i = 0; i < oldMommyPos.length; i++) {
-//     oldMommyPos[i].classList.remove("mommyClass");
-//   }
-// }
-
-//review the code block below again and add comments.
-
-// function changeMomPos() {
-//   for (let i = 0; i < currentMommyPosition.length; i++) {
-//     currentMommyPosition[i]--;
-//   }
-// }
-
-//THESE ARE THE FUNCTIONS I WANT TO INVOKE WHEN EVENTLISTENER-LEFT/ RIGHT.
+//THESE ARE THE FUNCTIONS I WANT TO INVOKE WHEN KEY LEFT/ RIGHT.
 // removeMommy();
 // changeMomPos();
 // drawMommy();
@@ -97,6 +75,8 @@ function removeMommy() {
     oldMommyPos[i].classList.remove("mommyClass");
   }
 }
+
+//during each iteration of the loop, the value of newMomPos is added to the current element of currentMommyPosition. Basically to update the positions stored in the 'currentMommyPosition' array by adding the value of 'newMomPos' to each position.
 
 function changeMomPos(newMomPos) {
   for (let i = 0; i < currentMommyPosition.length; i++) {
@@ -130,9 +110,7 @@ function moveMommyRight() {
 
 /* =========================================================================================== */
 
-/* baby army's starting point indexes of the div array */
-/* loop over the currentBabyPosition array to give a class of the selected indexes of the babyArmy array*/
-//defining the function of "drawing" the babies, use currentBabyPosition as it will be manipulated later, so it's gonna change
+/* adding babyClass to the baby squares. can easily "draw" them out using CSS class. */
 
 function drawBaby() {
   for (let i = 0; i < currentBabyPosition.length; i++) {
@@ -145,6 +123,10 @@ function drawBaby() {
 //changeBabyPos();
 //drawBaby();
 
+/*
+-select all HTML elements with that class and stores them in 'oldBabyPos'
+- removing the class from the baby squares
+*/
 function removeBabies() {
   let oldBabyPos = document.querySelectorAll(".babyClass");
 
@@ -159,22 +141,12 @@ function changeBabyPos(newBabypos) {
   }
 }
 
+//defining a loss. if any of the baby squares contain '210' (which is the bottom square), the game is over and player loses.
 function drawBaby() {
   for (let i = 0; i < currentBabyPosition.length; i++) {
     if (squares[currentBabyPosition[i]]) {
       if (currentBabyPosition[i] === 210) {
-        //210
-        //alert("LOSEEERRR!!");
         document.getElementById("score").innerHTML = "Lose";
-        console.log(
-          "bottleIntervalId:" +
-            bottleIntervalId +
-            " babyIntervalId:" +
-            babyIntervalId
-        );
-        clearInterval(bottleIntervalId);
-        clearInterval(babyIntervalId);
-        //startGame();
       }
       squares[currentBabyPosition[i]].classList.add("babyClass");
     }
@@ -182,13 +154,13 @@ function drawBaby() {
 }
 /* ============================================================================================ */
 
+// initializing left and right borders using for loops
+
 const leftBorder = [];
 
 for (let i = 0; i < width * width; i += 15) {
   leftBorder.push(i);
 }
-
-//improve code below. this array generates (-1) as a value.
 
 const rightBorder = [];
 
@@ -196,9 +168,10 @@ for (let i = 0; i < width; i++) {
   rightBorder.push(i * 15 - 1);
 }
 
-// function moveBabiesLeft() to be inserted below, together with setInterval
+// function moveBabiesRight together with setInterval
+// use speeds 800 and 50 for demo
 
-babyIntervalId = setInterval(moveBabiesRight, 800); //baby's movement speed: 800
+babyIntervalId = setInterval(moveBabiesRight, 800);
 
 // converting to integers using parseInt
 
@@ -229,11 +202,11 @@ function convertRightBorder() {
 }
 convertRightBorder();
 
-function moveBabiesLeft() {
-  removeBabies();
-  changeBabyPos(-1);
-  drawBaby();
-}
+// function moveBabiesLeft() {
+//   removeBabies();
+//   changeBabyPos(-1);
+//   drawBaby();
+// }
 
 function moveBabiesRight() {
   removeBabies();
@@ -251,27 +224,6 @@ for (let i = 0; i < parsedBabyPosition.length; i++) {
   }
 }
 
-//console.log(isInLeftBorder);
-
-let isInRightBorder = false;
-
-for (let i = 0; i < parsedBabyPosition.length; i++) {
-  if (parsedRightBorder.includes(parsedBabyPosition[i])) {
-    isInRightBorder = true;
-    break;
-  }
-}
-//console.log(isInRightBorder);
-
-//  below is the start of the code block for moveBabyLeft. Insert the conditions, and all other functions to be invoked.
-//   if (parseInt(currentBabyPosition[i]) > leftBorder[i])
-//     removeBabies();
-//   changeBabyPos(-1);
-//   drawBaby();
-// }
-
-//insert function (moveBabyRight) here. include all the conditions and callback functions.
-
 /* ===================================================================================== */
 //Bottle
 
@@ -281,117 +233,55 @@ function drawBottle() {
 }
 
 function removeBottle() {
-  //const oldBottlePos = document.querySelector(".bottleClass");
-  // console.log(oldBottlePos);
-  // TO DO: _______check if classList is null before remove
-  //oldBottlePos.classList.remove("bottleClass");
   squares[currentBottlePosition].classList.remove("bottleClass");
 }
 
 function shootBottleUp() {
-  console.log("bottle-" + currentBottlePosition);
   removeBottle();
   changeBottlePos(-15);
   drawBottle();
 
-  console.log("baby-" + currentBabyPosition);
-
   if (currentBabyPosition.includes(currentBottlePosition)) {
-    console.log("++++++");
     removeBottle();
     removeBaby(currentBottlePosition);
-  } else console.log("-----");
+  }
 }
 
-// shootBottleUp();
-
+//shooting
 let currentBottlePosition;
 
 document.addEventListener("keydown", function (event) {
   currentBottlePosition = currentMommyPosition[1] - 15;
-  // console.log(currentBottlePosition); //202
-  // console.log(squares[202]);
   if (event.key === " ") {
     drawBottle();
     bottleIntervalId = setInterval(() => {
-      console.log("bottleIntervalId (before)" + bottleIntervalId);
       //if bottle position reaches the top border
       if (currentBottlePosition < 0) {
         clearInterval(bottleIntervalId);
-        console.log("bottleIntervalId (after)" + bottleIntervalId);
-        //let bottleIntervalId = -1;
       } else {
         shootBottleUp();
       }
-    }, 70); //bottle speed
-    // shootBottleUp();
+    }, 20); //bottle speed
   }
 });
-//codes below copied from above. modify them to apply to "bottle"
 /*=========================================================== */
 
-// let parsedBottlePosition = 0;
-
-// removeBottle();
-
-// function removeBottle() {
-//   let oldBottlePos = document.querySelector(".bottleClass");
-//   if (oldBottlePos) {
-//     {
-//       oldBottlePos.classList.remove("bottleClass");
-//       while ((oldBottlePos = document.querySelector(".bottleClass")));
-//     }
-//   }
-// }
-
+//updating the position of the bottle. by taking the value of "currentBottlePosition" and adding "newBotPos" to it. This will then assign the results back to "currentBottlePosition", updating its value to the new position.
 function changeBottlePos(newBotPos) {
   currentBottlePosition += newBotPos;
 }
-// changeBottlePos();
-
-// function drawBottle() {
-//   console.log(currentBottlePosition);
-//   let parsedBottlePosition =
-//     squares[parseInt(currentBottlePosition)].classList.add("bottleClass");
-// }
-
 /* ================================================================= */
 
+//to remove the baby square that's been "fed"
+// first, find the index number of it in its array and use the splice method to remove it.
 function removeBaby(babyPos) {
-  //const oldBabyPos = document.querySelector(".babyClass");
-  //oldBabyPos.classList.remove("babyClass");
-  //squares[babyPos].classList.remove("babyClass");
-  console.log("babyPos: " + babyPos);
-  console.log(currentBabyPosition);
   let i = currentBabyPosition.indexOf(babyPos);
-
-  console.log("i: " + i);
   currentBabyPosition.splice(i, 1);
-  //scoreDisplay++;
-  console.log("currentBabyPosition.length:" + currentBabyPosition.length);
+
+  //defining a win
   if (currentBabyPosition.length === 0) {
-    //0
-    //alert("WIN LIAO LORRR!");
-    document.getElementById("score").innerHTML = "Win";
-    console.log(
-      "bottleIntervalId:" +
-        bottleIntervalId +
-        " babyIntervalId:" +
-        babyIntervalId
-    );
-    clearInterval(bottleIntervalId);
-    clearInterval(babyIntervalId);
-    //startGame();
+    document.getElementById("score").innerHTML = "Win liao lorr...";
   }
 }
-
-// function shoot (e) {
-//   let bottleIntervalId
-//   let currentBottlePosition = currentMommyPosition[1]
-// }
-// if (e.key === " ") {
-//   babyIntervalId = setInterval(setInt, 800)
-
-// }
 
 startGame();
