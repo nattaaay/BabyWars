@@ -10,12 +10,11 @@
 .grid div {
   width: 40px;
   height: 40px;
-  border: solid 1px grey;
-  box-sizing: border-box;
 }
 
 .babyClass {
   background-color: rgb(255, 149, 0);
+  border-radius: 50px;
 }
 
 .mommyClass {
@@ -24,4 +23,5 @@
 
 .bottleClass {
   background-color: blue;
+  border-radius: 80px;
 }

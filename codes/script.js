@@ -11,9 +11,20 @@ let currentBabyPosition = [
   4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52,
 ];
 
-let babiesFed = [];
-let babyId;
+let babiesFed = []; //remove if not using
+let babyIntervalId = -1;
+let bottleIntervalId = -1;
 
+function startGame() {
+  let currentMommyPosition = [216, 217, 218];
+  let currentBabyPosition = [
+    4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 36, 37, 38, 52,
+  ];
+  //clearInterval(bottleIntervalId);
+  //clearInterval(babyIntervalId);
+  drawBaby();
+  drawMommy();
+}
 /* =========================================================================================== */
 
 /*
@@ -41,7 +52,6 @@ function drawMommy() {
     squares[currentMommyPosition[i]].classList.add("mommyClass");
   }
 }
-drawMommy();
 
 /*
 - mommy's movements
@@ -129,7 +139,6 @@ function drawBaby() {
     squares[currentBabyPosition[i]].classList.add("babyClass");
   }
 }
-drawBaby();
 
 // THESE ARE THE FUNCTIONS I WANT TO INVOKE WHEN GAME STARTS/ TO SET TOGETHER LATER WITH TIME INTERVAL.
 //removeBabies();
@@ -153,6 +162,20 @@ function changeBabyPos(newBabypos) {
 function drawBaby() {
   for (let i = 0; i < currentBabyPosition.length; i++) {
     if (squares[currentBabyPosition[i]]) {
+      if (currentBabyPosition[i] === 210) {
+        //210
+        //alert("LOSEEERRR!!");
+        document.getElementById("score").innerHTML = "Lose";
+        console.log(
+          "bottleIntervalId:" +
+            bottleIntervalId +
+            " babyIntervalId:" +
+            babyIntervalId
+        );
+        clearInterval(bottleIntervalId);
+        clearInterval(babyIntervalId);
+        //startGame();
+      }
       squares[currentBabyPosition[i]].classList.add("babyClass");
     }
   }
@@ -175,7 +198,7 @@ for (let i = 0; i < width; i++) {
 
 // function moveBabiesLeft() to be inserted below, together with setInterval
 
-babyId = setInterval(moveBabiesRight, 300); //baby's movement speed
+babyIntervalId = setInterval(moveBabiesRight, 800); //baby's movement speed: 800
 
 // converting to integers using parseInt
 
@@ -258,10 +281,11 @@ function drawBottle() {
 }
 
 function removeBottle() {
-  const oldBottlePos = document.querySelector(".bottleClass");
+  //const oldBottlePos = document.querySelector(".bottleClass");
   // console.log(oldBottlePos);
   // TO DO: _______check if classList is null before remove
-  oldBottlePos.classList.remove("bottleClass");
+  //oldBottlePos.classList.remove("bottleClass");
+  squares[currentBottlePosition].classList.remove("bottleClass");
 }
 
 function shootBottleUp() {
@@ -289,10 +313,17 @@ document.addEventListener("keydown", function (event) {
   // console.log(squares[202]);
   if (event.key === " ") {
     drawBottle();
-    const bottleId = setInterval(() => {
-      if (currentBottlePosition < 0) clearInterval(bottleId);
-      shootBottleUp();
-    }, 200); //bottle speed
+    bottleIntervalId = setInterval(() => {
+      console.log("bottleIntervalId (before)" + bottleIntervalId);
+      //if bottle position reaches the top border
+      if (currentBottlePosition < 0) {
+        clearInterval(bottleIntervalId);
+        console.log("bottleIntervalId (after)" + bottleIntervalId);
+        //let bottleIntervalId = -1;
+      } else {
+        shootBottleUp();
+      }
+    }, 70); //bottle speed
     // shootBottleUp();
   }
 });
@@ -336,16 +367,31 @@ function removeBaby(babyPos) {
 
   console.log("i: " + i);
   currentBabyPosition.splice(i, 1);
-  if (currentBabyPosition.length == 10) {
-    alert("WIN LIAO LORRR!");
+  //scoreDisplay++;
+  console.log("currentBabyPosition.length:" + currentBabyPosition.length);
+  if (currentBabyPosition.length === 0) {
+    //0
+    //alert("WIN LIAO LORRR!");
+    document.getElementById("score").innerHTML = "Win";
+    console.log(
+      "bottleIntervalId:" +
+        bottleIntervalId +
+        " babyIntervalId:" +
+        babyIntervalId
+    );
+    clearInterval(bottleIntervalId);
+    clearInterval(babyIntervalId);
+    //startGame();
   }
 }
 
 // function shoot (e) {
-//   let bottleId
+//   let bottleIntervalId
 //   let currentBottlePosition = currentMommyPosition[1]
 // }
 // if (e.key === " ") {
-//   babyId = setInterval(setInt, 800)
+//   babyIntervalId = setInterval(setInt, 800)
 
 // }
+
+startGame();
